@@ -1,0 +1,526 @@
+﻿<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>Shivani ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        /* ========== BASE ========== */
+        html, body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Comic Sans MS', cursive;
+            background: url('Images/12.jpeg') center/cover fixed no-repeat;
+        }
+
+        /* ========== LOADER ========== */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            z-index: 9999;
+        }
+
+        #barWrap {
+            width: 260px;
+            height: 14px;
+            background: #300;
+            border-radius: 20px;
+            position: relative;
+            margin-top: 14px;
+        }
+
+        #bar {
+            height: 100%;
+            width: 0;
+            background: #ff2f68;
+            border-radius: 20px;
+        }
+
+        #heart {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            transform: translateX(-50%);
+            font-size: 28px;
+        }
+
+        /* ========== PAGE CENTERING ========== */
+        #page {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(.92);
+            transition: all 1s ease;
+        }
+
+            #page.show {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        /* ========== GLASS CARD ========== */
+        .card {
+            position: relative;
+            width: 90%;
+            max-width: 420px;
+            padding: 30px;
+            border-radius: 26px;
+            text-align: center;
+            /* glass */
+            background: rgba(255,255,255,0.14);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(255,255,255,0.28);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+        }
+
+        /* panda */
+        .top {
+            width: 130px;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+
+        /* text */
+        .poem {
+            color: #ff3f73;
+            margin: 4px 0;
+            font-weight: 600;
+        }
+
+        /* buttons */
+        button {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 28px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 6px;
+        }
+
+        #yes {
+            background: #ff2f68;
+            color: #fff;
+        }
+
+        #no {
+            position: absolute;
+        }
+
+        /* tease */
+        #tease {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 10px 18px;
+            border-radius: 20px;
+            display: none;
+            box-shadow: 0 8px 20px rgba(0,0,0,.3);
+        }
+
+        /* glow */
+        .glow {
+            text-shadow: 0 0 10px #fff, 0 0 25px #ff4d6d, 0 0 50px #ff4d6d;
+        }
+
+        /* heart rain */
+        .heart {
+            position: fixed;
+            top: -30px;
+            font-size: 22px;
+            animation: fall 4s linear;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh);
+            }
+        }
+
+        /* slow zoom for final text */
+        .zoom {
+            animation: zoom 8s ease infinite alternate;
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.08);
+            }
+        }
+
+        /* fireworks canvas */
+        canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        @keyframes floatAround {
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+
+            25% {
+                transform: translate(20px, -30px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-25px, 20px) scale(1);
+            }
+
+            75% {
+                transform: translate(15px, 25px) scale(1.05);
+            }
+
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+        }
+
+        @keyframes orbitFloat {
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+
+            25% {
+                transform: translate(10px, -15px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-12px, 10px) scale(1);
+            }
+
+            75% {
+                transform: translate(8px, 12px) scale(1.05);
+            }
+
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOADER -->
+    <div id="loader">
+        <div>Preparing something special…</div>
+        <div id="barWrap">
+            <div id="bar"></div>
+            <div id="heart">❤️</div>
+        </div>
+    </div>
+
+    <!-- PAGE -->
+    <div id="page">
+        <div class="card" id="card">
+            <img src="Images/sd.gif" class="top" />
+            <h1>Shivani ❤️</h1>
+
+            <p class="poem">tum shrishti ki pratham kavita 💕</p>
+            <p class="poem">mai antim adhura bayan priye 💕</p>
+            <p class="poem">tum milo to arth ban jau 💕</p>
+            <p class="poem">tum bin shunya vidhan priye 💕</p>
+
+            <p><strong>Will you be my Valentine forever?</strong></p>
+
+            <button id="yes">YES 😍</button>
+            <button id="no">NO 🙈</button>
+        </div>
+    </div>
+
+    <div id="tease">Bas ab YES kar do na ❤️</div>
+
+    <audio id="music" src="Images/music.mp3" loop></audio>
+    <audio id="heartbeat" src="Images/heartbeat.mp3"></audio>
+
+    <script>
+
+        /* ===== MUSIC SETUP ===== */
+        const music = document.getElementById("music");
+        music.volume = 0;
+        music.currentTime = 0;
+
+        let musicStarted = false;
+
+        /* Start music on first user interaction (required by browser) */
+        function startMusic() {
+            if (musicStarted) return;
+
+            music.play().then(() => {
+                musicStarted = true;
+            }).catch(() => { });
+        }
+
+        document.addEventListener("click", startMusic, { once: true });
+        document.addEventListener("touchstart", startMusic, { once: true });
+
+
+        /* ===== LOADER ===== */
+        let p = 0;
+        const bar = document.getElementById('bar');
+        const heart = document.getElementById('heart');
+
+        const load = setInterval(() => {
+            p++;
+
+            bar.style.width = p + '%';
+            heart.style.left = p + '%';
+
+            /* fade volume only after music allowed */
+            if (musicStarted) {
+                music.volume = Math.min(0.5, (p / 100) * 0.5);
+            }
+
+            if (p >= 100) {
+                clearInterval(load);
+                loader.style.display = 'none';
+                page.classList.add('show');
+            }
+        }, 60);
+
+
+        /* ===== NO BUTTON ===== */
+        let tries = 0;
+        const noBtn = document.getElementById('no');
+        const card = document.getElementById('card');
+        const tease = document.getElementById('tease');
+
+        function moveNo() {
+            tries++;
+
+            const rect = card.getBoundingClientRect();
+            const w = noBtn.offsetWidth;
+            const h = noBtn.offsetHeight;
+
+            noBtn.style.left = Math.random() * (rect.width - w) + "px";
+            noBtn.style.top = Math.random() * (rect.height - h) + "px";
+
+            if (tries === 5) {
+                tease.style.display = "block";
+                setTimeout(() => tease.style.display = "none", 3000);
+            }
+        }
+        noBtn.addEventListener('mouseover', moveNo);
+        noBtn.addEventListener('touchstart', moveNo);
+
+
+        /* ===== YES CLICK ===== */
+        document.getElementById('yes').onclick = () => {
+            card.style.display = 'none';
+            startFinal();
+        };
+
+        function startFinal() {
+            const wrap = document.createElement('div');
+            wrap.id = 'wrap';
+            wrap.style.position = 'fixed';
+            wrap.style.inset = '0';
+            wrap.style.background = "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('Images/12.jpeg') center/cover fixed no-repeat";
+            wrap.style.display = 'flex';
+            wrap.style.alignItems = 'center';
+            wrap.style.justifyContent = 'center';
+            wrap.style.flexDirection = 'column';
+            wrap.style.color = '#fff';
+            wrap.style.fontSize = '34px';
+            wrap.style.textAlign = 'center';
+            wrap.innerHTML = `<div id="type" style="margin-top:-200px;"></div>`;
+            document.body.appendChild(wrap);
+
+            typeWriter();
+            showPhotos();
+            startFireworks();
+            startHeartRain();
+        }
+        /* ===== PHOTOS AROUND TEXT ===== */
+        //function showPhotos() {
+        //    const wrap = document.getElementById('wrap');
+        //    const arr = ["Images/1.jpeg", "Images/2.jpeg", "Images/3.jpeg", "Images/4.jpeg", "Images/5.jpeg", "Images/6.jpeg", "Images/7.jpeg"];
+        //    arr.forEach((src, i) => {
+        //        const img = document.createElement('img');
+        //        img.src = src;
+        //        img.style.position = 'absolute';
+        //        img.style.width = '130px';
+        //        img.style.borderRadius = '12px';
+        //        img.style.boxShadow = '0 12px 28px rgba(0,0,0,.7)';
+        //        img.style.transform = 'scale(0)';
+        //        img.style.transition = '.6s';
+
+        //        const pos = [
+        //            { top: "8%", left: "10%" },
+        //            { top: "16%", right: "10%" },
+        //            { bottom: "22%", left: "10%" },
+        //            { bottom: "12%", right: "15%" },
+        //            { top: "42%", left: "2%" },
+        //            { top: "46%", right: "2%" },
+        //            { bottom: "6%", left: "40%" }
+        //        ];
+        //        Object.assign(img.style, pos[i % pos.length]);
+        //        wrap.appendChild(img);
+        //        setTimeout(() => img.style.transform = 'scale(1)', 300 + i * 180);
+        //    });
+        //}
+        function showPhotos() {
+            const wrap = document.getElementById('wrap');
+
+            const arr = [
+                "Images/1.jpeg", "Images/2.jpeg", "Images/3.jpeg",
+                "Images/4.jpeg", "Images/5.jpeg", "Images/6.jpeg", "Images/7.jpeg"
+            ];
+
+            const positions = [
+                { top: "5%", left: "10%" },
+                { top: "5%", right: "10%" },
+                { top: "30%", left: "2%" },
+                { top: "30%", right: "2%" },
+                { bottom: "20%", left: "5%" },
+                { bottom: "20%", right: "5%" },
+                { bottom: "5%", left: "40%" }
+            ];
+
+            arr.forEach((src, i) => {
+                const img = document.createElement('img');
+                img.src = src;
+
+                img.style.position = 'absolute';
+                img.style.width = '130px';
+                img.style.borderRadius = '12px';
+                img.style.boxShadow = '0 12px 28px rgba(0,0,0,.7)';
+                img.style.transform = 'scale(0)';
+                img.style.transition = '.6s';
+
+                Object.assign(img.style, positions[i]);
+
+                wrap.appendChild(img);
+
+                setTimeout(() => {
+                    img.style.transform = 'scale(1)';
+                    img.style.animation = `orbitFloat ${6 + i}s ease-in-out infinite`;
+                }, 300 + i * 200);
+            });
+        }
+
+
+
+        /* ===== TYPEWRITER ===== */
+        const lines = [
+            "So it begins…",
+            "Our forever ❤️",
+            "",
+            "Therefore, Ms. Shivani Tiwari,",
+            "my little baby ❤️",
+            "You are my today,",
+            "my tomorrow,",
+            "and every Valentine after this."
+        ];
+
+        let li = 0;
+
+        function typeWriter() {
+            const el = document.getElementById('type');
+
+            function next() {
+                if (li >= lines.length) { showFinalText(); return; }
+
+                let txt = lines[li];
+                let i = 0, cur = "";
+
+                const inter = setInterval(() => {
+                    cur += txt.charAt(i);
+                    el.innerHTML = cur;
+                    i++;
+
+                    if (i >= txt.length) {
+                        clearInterval(inter);
+                        li++;
+                        setTimeout(() => { el.innerHTML = ""; next(); }, 800);
+                    }
+                }, 40);
+            }
+            next();
+        }
+
+        function showFinalText() {
+            const el = document.getElementById('type');
+            el.innerHTML = `
+<div class="glow zoom">
+So it begins…<br/>
+Our forever ❤️<br/><br/>
+Therefor, Ms. Shivani Tiwari,<br/>
+my little baby ❤️,<br/>
+You are my today,<br/>
+my tomorrow,<br/>
+and every Valentine after this.
+</div>`;
+        }
+
+
+        /* ===== HEART RAIN ===== */
+        function startHeartRain() {
+            setInterval(() => {
+                const h = document.createElement('div');
+                h.className = 'heart';
+                h.innerHTML = '❤️';
+                h.style.left = Math.random() * 100 + 'vw';
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 4000);
+            }, 220);
+        }
+
+        /* ===== FIREWORKS ===== */
+        function startFireworks() {
+            const canvas = document.createElement('canvas');
+            document.body.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+
+            let parts = [];
+            setInterval(() => {
+                for (let i = 0; i < 60; i++) {
+                    parts.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height / 2,
+                        dx: (Math.random() - 0.5) * 6,
+                        dy: (Math.random() - 0.5) * 6,
+                        life: 60
+                    });
+                }
+            }, 500);
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                parts.forEach((p, i) => {
+                    p.x += p.dx; p.y += p.dy; p.life--;
+                    ctx.fillStyle = `hsl(${Math.random() * 360},100%,60%)`;
+                    ctx.fillRect(p.x, p.y, 3, 3);
+                    if (p.life <= 0) parts.splice(i, 1);
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+    </script>
+
+
+</body>
+</html>
